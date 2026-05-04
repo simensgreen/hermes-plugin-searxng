@@ -16,6 +16,10 @@ Structure matches [Build a Hermes Plugin](https://hermes-agent.nousresearch.com/
 - SearXNG with JSON results for your client.
 - **`SEARXNG_URL`** in `~/.hermes/.env`, e.g. `https://search.example.org/search` (or base URL without `/search`; the plugin normalizes).
 
+## Breaking changes (0.2.x)
+
+The LLM-facing tool was renamed from **`searxng_search`** to **`searxng`**. Update any custom prompts, skills, or automation that referenced the old name.
+
 ## Install
 
 ```bash
