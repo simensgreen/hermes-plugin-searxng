@@ -1,0 +1,16 @@
+name: searxng-search
+kind: standalone
+version: 0.1.0
+description: Web search via self-hosted SearXNG (multi-query, parallel, JSON API).
+author: semyon
+
+provides_tools:
+  - searxng_search
+
+provides_hooks: []
+
+requires_env:
+  - name: SEARXNG_URL
+    description: "SearXNG search path for JSON API, e.g. https://your-instance.tld/search"
+    url: "https://docs.searxng.org/"
+    secret: false
