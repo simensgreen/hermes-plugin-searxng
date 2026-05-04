@@ -8,7 +8,9 @@ SEARXNG = {
         "`queries`; they run in parallel, results merge with URL deduplication. "
         "Supports multiple `languages` (e.g. ['en'], ['en','ru'], ['ru']). "
         "Use for fresh facts, news, docs after training cutoff. "
-        "Prefer when SearXNG is configured instead of generic web_search."
+        "Prefer when SearXNG is configured instead of generic web_search. "
+        "For full one-topic research workflow (query variants, operators, source quality, "
+        "verification), load bundled skill via skill_view(\"hermes-plugin-searxng:internet-search\")."
     ),
     "parameters": {
         "type": "object",
