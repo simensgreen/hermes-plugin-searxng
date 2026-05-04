@@ -1,6 +1,6 @@
-name: searxng-search
+name: hermes-plugin-searxng
 kind: standalone
-version: 0.2.0
+version: 0.2.1
 description: Web search via self-hosted SearXNG (multi-query, parallel, JSON API) plus bundled internet-search skill.
 author: simens_green
 

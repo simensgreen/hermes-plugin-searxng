@@ -7,7 +7,7 @@ Hermes plugin: **SearXNG** JSON search plus a bundled **internet-search** skill.
 | Piece | Purpose |
 |-------|---------|
 | Tool **`searxng`** | Multi-query, multi-language SearXNG API calls (`SEARXNG_URL`). |
-| Skill **`searxng-search:internet-search`** | One-topic web research workflow (load via `skill_view`; not in the default global skills index). |
+| Skill **`hermes-plugin-searxng:internet-search`** | One-topic web research workflow (load via `skill_view`; not in the default global skills index). |
 
 Structure matches [Build a Hermes Plugin](https://hermes-agent.nousresearch.com/docs/guides/build-a-hermes-plugin): `plugin.yaml`, `schemas.py`, `tools.py`, `__init__.py`, optional `skills/<name>/SKILL.md`.
 
@@ -16,9 +16,6 @@ Structure matches [Build a Hermes Plugin](https://hermes-agent.nousresearch.com/
 - SearXNG with JSON results for your client.
 - **`SEARXNG_URL`** in `~/.hermes/.env`, e.g. `https://search.example.org/search` (or base URL without `/search`; the plugin normalizes).
 
-## Breaking changes (0.2.x)
-
-The LLM-facing tool was renamed from **`searxng_search`** to **`searxng`**. Update any custom prompts, skills, or automation that referenced the old name.
 
 ## Install
 
@@ -26,7 +23,7 @@ The LLM-facing tool was renamed from **`searxng_search`** to **`searxng`**. Upda
 hermes plugins install simensgreen/hermes-plugin-searxng --enable
 ```
 
-Enable `searxng-search` in `plugins.enabled` if needed, restart Hermes, then:
+Enable `hermes-plugin-searxng` in `plugins.enabled` if needed, restart Hermes, then:
 
 ```bash
 hermes tools list | grep -i searxng
@@ -37,10 +34,10 @@ hermes tools list | grep -i searxng
 After the plugin loads, the agent can pull the workflow with:
 
 ```text
-skill_view("searxng-search:internet-search")
+skill_view("hermes-plugin-searxng:internet-search")
 ```
 
-(`searxng-search` is the plugin `name` in `plugin.yaml`; `internet-search` is the folder under `skills/`.)
+(`hermes-plugin-searxng` is the plugin `name` in `plugin.yaml`; `internet-search` is the folder under `skills/`.)
 
 ## License
 

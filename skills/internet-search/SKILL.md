@@ -1,6 +1,6 @@
 ---
 name: internet-search
-description: "One-topic web research with citations. Use to verify claims or find current info; prefer primary sources, deduplicate, and check dates. Ships with the searxng-search plugin; load as searxng-search:internet-search when using the bundled copy."
+description: "One-topic web research with citations. Use to verify claims or find current info; prefer primary sources, deduplicate, and check dates. Ships with the hermes-plugin-searxng plugin; load as hermes-plugin-searxng:internet-search when using the bundled copy."
 metadata:
   hermes:
     tags:
@@ -18,7 +18,7 @@ metadata:
 
 ## Plugin bundle
 
-When this file is installed via the **`searxng-search`** plugin, Hermes exposes it as a **namespaced** skill: use `skill_view("searxng-search:internet-search")` (plugin `name` from `plugin.yaml` + folder name under `skills/`). Plugin skills are opt-in: they are not merged into the default global skills index the same way as `~/.hermes/skills/`. See [Build a Hermes Plugin](https://hermes-agent.nousresearch.com/docs/guides/build-a-hermes-plugin).
+When this file is installed via the **`hermes-plugin-searxng`** plugin, Hermes exposes it as a **namespaced** skill: use `skill_view("hermes-plugin-searxng:internet-search")` (plugin `name` from `plugin.yaml` + folder name under `skills/`). Plugin skills are opt-in: they are not merged into the default global skills index the same way as `~/.hermes/skills/`. See [Build a Hermes Plugin](https://hermes-agent.nousresearch.com/docs/guides/build-a-hermes-plugin).
 
 ## Purpose
 
@@ -95,7 +95,7 @@ Before finalizing:
 
 Prefer the user's self-hosted SearXNG search backend when available.
 
-Use the **`searxng`** tool (from the `searxng-search` plugin) before generic public search tools if it exists in the current Hermes toolset.
+Use the **`searxng`** tool (from the `hermes-plugin-searxng` plugin) before generic public search tools if it exists in the current Hermes toolset.
 
 Do not assume DuckDuckGo-specific tools or syntax. The user's preferred search stack is SearXNG.
 
