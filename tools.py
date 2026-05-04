@@ -9,12 +9,7 @@ HTTP_TIMEOUT = 15
 
 
 def _search_base_url() -> str:
-    raw = (os.getenv("SEARXNG_URL") or "").strip().rstrip("/")
-    if not raw:
-        return ""
-    if raw.endswith("/search"):
-        return raw
-    return f"{raw}/search"
+    return (os.getenv("SEARXNG_URL") or "").strip().rstrip("/")
 
 
 def _search_once(
