@@ -31,7 +31,7 @@ hermes tools list | grep -i searxng
 
 ## Bundled skill
 
-After the plugin loads, the agent can pull the workflow with:
+After the plugin loads, the **`searxng`** tool is visible immediately, but the bundled skill is **opt-in**: it is not listed in the default skills index in the system prompt (see [Build a Hermes Plugin — Bundle skills](https://hermes-agent.nousresearch.com/docs/guides/build-a-hermes-plugin#bundle-skills)). The tool description tells the model to load the workflow before searching.
 
 ```text
 skill_view("hermes-plugin-searxng:internet-search")
