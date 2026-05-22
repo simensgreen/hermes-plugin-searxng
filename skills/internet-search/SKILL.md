@@ -97,7 +97,7 @@ Prefer the user's self-hosted SearXNG search backend when available.
 
 Use the **`searxng`** tool (from the `hermes-plugin-searxng` plugin) before generic public search tools if it exists in the current Hermes toolset.
 
-When **`searxng`** is in the toolset, load this skill with `skill_view("hermes-plugin-searxng:internet-search")` **before** the first `searxng` call (Hermes does not auto-attach plugin skills to tools; the tool schema instructs the same).
+When **`searxng`** is in the toolset, load this skill with `skill_view("hermes-plugin-searxng:internet-search")` for **serious** web research (verification, citations, multi-source work, law/news/policy, or deep one-topic research). For trivial one-off lookups, the `searxng` tool quick ref is enough — Hermes does not auto-attach plugin skills to tools.
 
 Do not assume DuckDuckGo-specific tools or syntax. The user's preferred search stack is SearXNG.
 

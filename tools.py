@@ -48,6 +48,7 @@ def _search_once(
 
 
 def _dedupe_and_rank(buckets: list[list[dict]], max_results: int) -> list[dict]:
+    """Round-robin merge of result lists with URL dedupe, capped at max_results."""
     seen_urls = set()
     merged = []
     max_len = max((len(b) for b in buckets), default=0)
@@ -62,6 +63,19 @@ def _dedupe_and_rank(buckets: list[list[dict]], max_results: int) -> list[dict]:
                 if len(merged) >= max_results:
                     return merged
     return merged
+
+
+def _max_results_per_query(args: dict, query_count: int) -> int:
+    raw = args.get("max_results")
+    if raw is not None:
+        return max(1, int(raw))
+    # Default scales with bundle size so multi-query calls are useful without
+    # the model having to pass max_results every time.
+    if query_count <= 1:
+        return 12
+    if query_count <= 3:
+        return 7
+    return 5
 
 
 def searxng_handler(args: dict, **_kwargs) -> str:
@@ -89,12 +103,11 @@ def searxng_handler(args: dict, **_kwargs) -> str:
             languages = ["en"]
 
         categories = args.get("categories", "general")
-        max_results = int(args.get("max_results", 10))
-        per_call_cap = max(max_results, 10)
+        max_per_query = _max_results_per_query(args, len(queries))
 
         jobs = [(q, lang) for q in queries for lang in languages]
 
-        buckets: list[list[dict]] = []
+        buckets_by_query: dict[str, list[list[dict]]] = {q: [] for q in queries}
         errors: list[str] = []
         with ThreadPoolExecutor(max_workers=min(8, len(jobs))) as ex:
             futures = {
@@ -104,24 +117,32 @@ def searxng_handler(args: dict, **_kwargs) -> str:
                     q,
                     lang,
                     categories,
-                    per_call_cap,
+                    max_per_query,
                 ): (q, lang)
                 for q, lang in jobs
             }
             for fut in as_completed(futures):
                 q, lang = futures[fut]
                 try:
-                    buckets.append(fut.result())
+                    buckets_by_query[q].append(fut.result())
                 except Exception as e:
                     errors.append(f"{lang}/{q!r}: {e}")
 
-        results = _dedupe_and_rank(buckets, max_results)
+        by_query = []
+        for q in queries:
+            merged = _dedupe_and_rank(buckets_by_query.get(q, []), max_per_query)
+            by_query.append({
+                "query": q,
+                "results": merged,
+                "total": len(merged),
+            })
 
         return json.dumps({
             "queries": queries,
             "languages": languages,
-            "results": results,
-            "total": len(results),
+            "max_results_per_query": max_per_query,
+            "by_query": by_query,
+            "total": sum(entry["total"] for entry in by_query),
             "queries_run": len(jobs),
             "errors": errors,
         }, ensure_ascii=False)
